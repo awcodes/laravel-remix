@@ -53,6 +53,6 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "bin": [
-        "builds/laravel-remix"
+        "laravel-remix"
     ]
 }
