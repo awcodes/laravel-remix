@@ -1,19 +1,19 @@
 {
-    "name": "laravel-zero/laravel-zero",
-    "description": "The Laravel Zero Framework.",
+    "name": "awcodes/laravel-remix",
+    "description": "Revert a new Laravel application to Laravel Mix.",
     "keywords": [
         "framework",
         "laravel",
-        "laravel zero",
+        "mix",
         "console",
         "cli"
     ],
-    "homepage": "https://laravel-zero.com",
+    "homepage": "https://github.com/awcodes/laravel-remix",
     "type": "project",
     "license": "MIT",
     "support": {
-        "issues": "https://github.com/laravel-zero/laravel-zero/issues",
-        "source": "https://github.com/laravel-zero/laravel-zero"
+        "issues": "https://github.com/awcodes/laravel-remix/issues",
+        "source": "https://github.com/awcodes/laravel-remix"
     },
     "authors": [
         {
