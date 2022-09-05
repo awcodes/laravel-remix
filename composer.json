@@ -9,7 +9,6 @@
         "cli"
     ],
     "homepage": "https://github.com/awcodes/laravel-remix",
-    "type": "project",
     "license": "MIT",
     "support": {
         "issues": "https://github.com/awcodes/laravel-remix/issues",
