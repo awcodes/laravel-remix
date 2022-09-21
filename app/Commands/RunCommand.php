@@ -22,6 +22,11 @@ class RunCommand extends Command
      */
     protected $description = 'Revert a new Laravel application to Laravel Mix.';
 
+    /**
+     * The current working directory.
+     *
+     * @var string
+     */
     public string $directory = '';
 
     /**
@@ -34,7 +39,7 @@ class RunCommand extends Command
         $this->directory = getcwd();
 
         if (! File::exists($this->directory.'/artisan')) {
-            render(<<<HTML
+            render(<<<'HTML'
                 <p class="text-red-500">This doesn't appear to be a Laravel Application. Please navigate to your application and try again.</p>
             HTML);
 
@@ -42,7 +47,7 @@ class RunCommand extends Command
         }
 
         if (File::isDirectory($this->directory.'/public/build')) {
-            render(<<<HTML
+            render(<<<'HTML'
                 <div>
                     <p class="text-red-500">This doesn't appear to be a fresh Laravel Application.</p>
                     <p class="text-white mt-0">
@@ -54,7 +59,7 @@ class RunCommand extends Command
             return self::FAILURE;
         }
 
-        render(<<<HTML
+        render(<<<'HTML'
             <p class="text-green-500">Remixing your app!</p>
         HTML);
 
@@ -64,13 +69,21 @@ class RunCommand extends Command
 
         $destroyVite = File::delete($this->directory.'/vite.config.js');
 
+        if (File::exists($this->directory.'/.env.example')) {
+            $this->replaceInFile('VITE_', 'MIX_', $this->directory.'/.env.example');
+        }
+
+        if (File::exists($this->directory.'/.env')) {
+            $this->replaceInFile('VITE_', 'MIX_', $this->directory.'/.env');
+        }
+
         if (! $destroyVite) {
-            render(<<<HTML
+            render(<<<'HTML'
                 <p class="text-yellow-500 mt-0">Failed to delete vite.config.js</p>
             HTML);
         }
 
-        render(<<<HTML
+        render(<<<'HTML'
             <p class="text-green-500 mt-0">Successfully 'Remixed' your app!</p>
         HTML);
     }
@@ -78,12 +91,28 @@ class RunCommand extends Command
     /**
      * Publish a file to the app.
      *
-     * @param  string $file
-     * @param  string $stub
+     * @param  string  $file
+     * @param  string  $stub
      * @return void
      */
     protected function publishStub(string $file, string $stub): void
     {
         File::put($this->directory.'/'.ltrim($file, '/'), File::get(base_path('stubs/'.ltrim($stub, '/'))));
+    }
+
+    /**
+     * Replace the given string in the given file.
+     *
+     * @param  string  $search
+     * @param  string  $replace
+     * @param  string  $file
+     * @return void
+     */
+    protected function replaceInFile(string $search, string $replace, string $file)
+    {
+        file_put_contents(
+            $file,
+            str_replace($search, $replace, file_get_contents($file))
+        );
     }
 }
